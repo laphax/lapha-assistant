@@ -6,7 +6,7 @@
 
     <groupId>org.lapha</groupId>
     <artifactId>lapha-assistant</artifactId>
-    <version>0.1-alpha</version>
+    <version>0.1-beta-1</version>
 
     <build>
         <plugins>
