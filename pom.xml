@@ -72,6 +72,15 @@
             <version>20210307</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.intellij/forms_rt -->
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>forms_rt</artifactId>
+            <version>7.0.3</version>
+            <scope>compile</scope>
+        </dependency>
+
+
     </dependencies>
 
     <properties>
