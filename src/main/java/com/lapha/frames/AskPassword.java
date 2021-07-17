@@ -1,6 +1,5 @@
 package com.lapha.frames;
 
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -18,15 +17,16 @@ public class AskPassword extends Dialog {
 
     this.setModal(true);
     this.getRootPane().setDefaultButton(buttonOK);
-    this.buttonOK.addActionListener(e -> {
-      char[] password = this.passwordField1.getPassword();
-      if (password == null || password.length == 0) {
-        Message.showMessage("Invalid Password.", TrayIcon.MessageType.WARNING, this);
-      } else {
-        pass = password;
-        this.dispose();
-      }
-    });
+    this.buttonOK.addActionListener(
+        e -> {
+          char[] password = this.passwordField1.getPassword();
+          if (password == null || password.length == 0) {
+            Message.showMessage("Invalid Password.", TrayIcon.MessageType.WARNING, this);
+          } else {
+            pass = password;
+            this.dispose();
+          }
+        });
   }
 
   public char[] getPass() {

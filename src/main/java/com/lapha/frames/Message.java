@@ -1,6 +1,5 @@
 package com.lapha.frames;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -21,14 +20,18 @@ public class Message extends Dialog {
 
     // call onCancel() when cross is clicked
     setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-    addWindowListener(new WindowAdapter() {
-      public void windowClosing(WindowEvent e) {
-        onCancel();
-      }
-    });
+    addWindowListener(
+        new WindowAdapter() {
+          public void windowClosing(WindowEvent e) {
+            onCancel();
+          }
+        });
 
     // call onCancel() on ESCAPE
-    contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    contentPane.registerKeyboardAction(
+        e -> onCancel(),
+        KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+        JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
   }
 
   private void onOK() {
@@ -41,7 +44,8 @@ public class Message extends Dialog {
     dispose();
   }
 
-  public static void showMessage(String message, TrayIcon.MessageType messageType, Component parent) {
+  public static void showMessage(
+      String message, TrayIcon.MessageType messageType, Component parent) {
     Message dialog = new Message();
     dialog.setTitle(messageType.name());
     dialog.setMinimumSize(new Dimension(200, 80));
@@ -49,5 +53,4 @@ public class Message extends Dialog {
     dialog.messageLabel.setText(message);
     dialog.defaultShow(parent);
   }
-
 }

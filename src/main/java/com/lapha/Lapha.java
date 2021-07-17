@@ -9,9 +9,10 @@ public class Lapha {
 
   public static void main(String[] args) {
     FlatLightLaf.install();
-    EventQueue.invokeLater(() -> {
-      Main main = Main.getMain();
-      main.defaultShow(null);
-    });
+    EventQueue.invokeLater(
+        () -> {
+          Main main = Main.getMain();
+          main.defaultShow(null);
+        });
   }
 }

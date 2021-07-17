@@ -12,9 +12,9 @@ import java.net.MalformedURLException;
 
 public class Account extends Frame {
 
-  final static String hostKey = "host";
-  final static String userNameKey = "username";
-  final static String file = "orange.hrms.json";
+  static final String hostKey = "host";
+  static final String userNameKey = "username";
+  static final String file = "orange.hrms.json";
   static JSONObject jsonObject = null;
 
   // init
@@ -28,51 +28,52 @@ public class Account extends Frame {
     this.setTitle("Orange Account");
     this.setContentPane(accountPanel);
 
-    saveButton.addActionListener(e -> {
-      String host = hostTextField.getText();
-      String userName = userNameTextField.getText();
+    saveButton.addActionListener(
+        e -> {
+          String host = hostTextField.getText();
+          String userName = userNameTextField.getText();
 
-      String errorMessage = "";
-      try {
-        Utils.validateUrl(host);
-      } catch (MalformedURLException malformedURLException) {
-        errorMessage = "Host url is invalid.";
-      } catch (IOException ioException) {
-        errorMessage = "Host url validation failed.";
-      }
-
-      try {
-        Utils.validateUserName(userName);
-      } catch (Exception exception) {
-        errorMessage = "Unacceptable username.";
-      }
-
-      if (errorMessage.length() > 0) {
-        Message.showMessage(errorMessage, TrayIcon.MessageType.ERROR, this);
-      } else {
-        // now save
-        JSONObject object = new JSONObject();
-        object.put(hostKey, host);
-        object.put(userNameKey, userName);
-        try {
-          boolean updateMainMenu = !Account.haveAccount();
-          ReadWrite.write(file, object);
-          jsonObject = object;
-          Message.showMessage("Success.", TrayIcon.MessageType.INFO, this);
-          this.dispose();
-          PunchInOut punchInOut = new PunchInOut();
-          punchInOut.defaultShow(this);
-
-          // menu update
-          if(updateMainMenu){
-            Main.getMain().updateMenuBar();
+          String errorMessage = "";
+          try {
+            Utils.validateUrl(host);
+          } catch (MalformedURLException malformedURLException) {
+            errorMessage = "Host url is invalid.";
+          } catch (IOException ioException) {
+            errorMessage = "Host url validation failed.";
           }
-        } catch (Exception exception) {
-          errorMessage = "Failed to save.";
-          Message.showMessage(errorMessage, TrayIcon.MessageType.ERROR, this);
-        }
-      }
-    });
+
+          try {
+            Utils.validateUserName(userName);
+          } catch (Exception exception) {
+            errorMessage = "Unacceptable username.";
+          }
+
+          if (errorMessage.length() > 0) {
+            Message.showMessage(errorMessage, TrayIcon.MessageType.ERROR, this);
+          } else {
+            // now save
+            JSONObject object = new JSONObject();
+            object.put(hostKey, host);
+            object.put(userNameKey, userName);
+            try {
+              boolean updateMainMenu = !Account.haveAccount();
+              ReadWrite.write(file, object);
+              jsonObject = object;
+              Message.showMessage("Success.", TrayIcon.MessageType.INFO, this);
+              this.dispose();
+              PunchInOut punchInOut = new PunchInOut();
+              punchInOut.defaultShow(this);
+
+              // menu update
+              if (updateMainMenu) {
+                Main.getMain().updateMenuBar();
+              }
+            } catch (Exception exception) {
+              errorMessage = "Failed to save.";
+              Message.showMessage(errorMessage, TrayIcon.MessageType.ERROR, this);
+            }
+          }
+        });
 
     try {
       read();
@@ -124,5 +125,4 @@ public class Account extends Frame {
       throw new Exception("Orange HRMS account is not found.");
     }
   }
-
 }

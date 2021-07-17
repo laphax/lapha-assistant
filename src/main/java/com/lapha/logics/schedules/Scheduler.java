@@ -8,22 +8,22 @@ public class Scheduler {
   // isScheduledDefault
   private static Timer timer;
   private static boolean scheduledDefault = false;
-  private final static Scheduler scheduler = new Scheduler();
+  private static final Scheduler scheduler = new Scheduler();
 
-  private Scheduler(){ }
+  private Scheduler() {}
 
   public static Scheduler getInstance() {
     return scheduler;
   }
 
   private void ensureTimer() {
-    if(timer == null) {
+    if (timer == null) {
       timer = new Timer("lapha-reminder-timer");
     }
   }
 
   public void schedule(TimerTask timerTask, long delay, long period) {
-    if(period % 5 != 0) {
+    if (period % 5 != 0) {
       return;
     }
     ensureTimer();
@@ -31,7 +31,7 @@ public class Scheduler {
   }
 
   public boolean scheduleDefault() {
-    if(scheduledDefault){
+    if (scheduledDefault) {
       return false;
     }
     // every 1 hour
@@ -39,7 +39,7 @@ public class Scheduler {
     schedule(drinkWater, 60 * 60 * 1000, 60 * 60 * 1000);
     // every 45 minutes
     ChangePosition changePosition = new ChangePosition();
-    schedule(changePosition,  45 * 60 * 1000, 45 * 60 * 1000);
+    schedule(changePosition, 45 * 60 * 1000, 45 * 60 * 1000);
     scheduledDefault = true;
     return true;
   }
@@ -49,7 +49,7 @@ public class Scheduler {
   }
 
   public void cancel() {
-    if(timer != null){
+    if (timer != null) {
       timer.cancel();
       timer.purge();
       timer = null;

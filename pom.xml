@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.lapha</groupId>
-    <artifactId>lapha</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>lapha-assistant</artifactId>
+    <version>0.1-alpha</version>
 
     <build>
         <plugins>

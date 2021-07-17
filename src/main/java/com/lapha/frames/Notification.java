@@ -1,6 +1,5 @@
 package com.lapha.frames;
 
-
 import com.lapha.logics.Ref;
 import com.lapha.logics.schedules.Scheduler;
 
@@ -14,58 +13,63 @@ public class Notification {
 
   static {
     try {
-      if(SystemTray.isSupported()) {
+      if (SystemTray.isSupported()) {
         SystemTray tray = SystemTray.getSystemTray();
         // popup menu
         PopupMenu popupMenu = new PopupMenu();
         // show
         MenuItem showMenuItem = new MenuItem("Show");
-        showMenuItem.addActionListener( e -> {
-          Main.getMain().setVisible(true);
-        });
+        showMenuItem.addActionListener(
+            e -> {
+              Main.getMain().setVisible(true);
+            });
         popupMenu.add(showMenuItem);
         // Reminders
         // need for toggle
         Ref<Boolean> enableNextReminder = new Ref<>(true);
         MenuItem enableDisableNotificationMenuItem = new MenuItem("Disable Reminders");
-        enableDisableNotificationMenuItem.addActionListener( e -> {
-          if(enableNextReminder.getRef()) {
-            Scheduler.getInstance().cancel();
-            enableDisableNotificationMenuItem.setLabel("Enable Reminders");
-          } else {
-            Scheduler.getInstance().scheduleDefault();
-            enableDisableNotificationMenuItem.setLabel("Disable Reminders");
-          }
-          enableNextReminder.setRef(!enableNextReminder.getRef());
-        });
+        enableDisableNotificationMenuItem.addActionListener(
+            e -> {
+              if (enableNextReminder.getRef()) {
+                Scheduler.getInstance().cancel();
+                enableDisableNotificationMenuItem.setLabel("Enable Reminders");
+              } else {
+                Scheduler.getInstance().scheduleDefault();
+                enableDisableNotificationMenuItem.setLabel("Disable Reminders");
+              }
+              enableNextReminder.setRef(!enableNextReminder.getRef());
+            });
         popupMenu.add(enableDisableNotificationMenuItem);
-        //maybe exit too
+        // maybe exit too
         MenuItem exitMenuItem = new MenuItem("Exit");
-        exitMenuItem.addActionListener( e -> Main.getMain().exit());
+        exitMenuItem.addActionListener(e -> Main.getMain().exit());
         popupMenu.add(exitMenuItem);
 
-        Image image = ImageIO.read(Objects.requireNonNull(Main.getMain().getClass().getClassLoader().getResource("icons/lapha.png")));
+        Image image =
+            ImageIO.read(
+                Objects.requireNonNull(
+                    Main.getMain().getClass().getClassLoader().getResource("icons/lapha.png")));
         trayIcon = new TrayIcon(image, "Lapha", popupMenu);
         trayIcon.setImageAutoSize(true);
         tray.add(trayIcon);
       }
-    } catch (Exception e){
+    } catch (Exception e) {
       trayIcon = null;
     }
   }
 
   public static void showTrayNotification(Component parent, String message) {
     boolean tray = trayIcon != null;
-    if(tray){
+    if (tray) {
       try {
         trayIcon.displayMessage("Notification", message, TrayIcon.MessageType.INFO);
         tray = true;
-      } catch (Exception e){
+      } catch (Exception e) {
         tray = false;
       }
     }
 
-    if(!tray){
+    if (!tray) {
       Message.showMessage(message, TrayIcon.MessageType.INFO, parent);
     }
   }

@@ -8,6 +8,7 @@ public class ChangePosition extends TimerTask {
 
   @Override
   public void run() {
-    Notification.showTrayNotification(null, "Stay Healthy. It is recommended to change body position at every 45 minutes.");
+    Notification.showTrayNotification(
+        null, "Stay Healthy. It is recommended to change body position at every 45 minutes.");
   }
 }

@@ -13,7 +13,7 @@ public class Frame extends JFrame {
     defaultShow(null);
   }
 
-  public void defaultShow(Component parent){
+  public void defaultShow(Component parent) {
     this.setResizable(false);
     this.setLocationRelativeTo(parent);
     this.pack();

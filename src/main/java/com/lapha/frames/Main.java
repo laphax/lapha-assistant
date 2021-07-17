@@ -25,7 +25,7 @@ class MyLabel extends JLabel {
 public class Main extends Frame {
 
   private boolean enableReminder = true;
-  final static Main main = new Main();
+  static final Main main = new Main();
 
   private Main() {
     super();
@@ -40,9 +40,19 @@ public class Main extends Frame {
 
     this.createMenuBar();
 
-    Color[] colors = {Color.black, Color.blue, Color.cyan, Color.gray,
-        Color.green, Color.lightGray, Color.magenta,
-        Color.orange, Color.pink, Color.red, Color.white, Color.yellow
+    Color[] colors = {
+      Color.black,
+      Color.blue,
+      Color.cyan,
+      Color.gray,
+      Color.green,
+      Color.lightGray,
+      Color.magenta,
+      Color.orange,
+      Color.pink,
+      Color.red,
+      Color.white,
+      Color.yellow
     };
 
     List<JLabel> labels = new ArrayList<>(colors.length);
@@ -56,18 +66,19 @@ public class Main extends Frame {
     this.setTitle("Lapha");
     this.setSize(400, 185);
     this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-    this.addWindowListener(new WindowAdapter() {
-      @Override
-      public void windowClosing(WindowEvent e) {
-        if(enableReminder) {
-          Scheduler scheduler = Scheduler.getInstance();
-          boolean result = scheduler.scheduleDefault();
-          if(result){
-            Notification.showTrayNotification(main, "Default reminders are scheduled.");
+    this.addWindowListener(
+        new WindowAdapter() {
+          @Override
+          public void windowClosing(WindowEvent e) {
+            if (enableReminder) {
+              Scheduler scheduler = Scheduler.getInstance();
+              boolean result = scheduler.scheduleDefault();
+              if (result) {
+                Notification.showTrayNotification(main, "Default reminders are scheduled.");
+              }
+            }
           }
-        }
-      }
-    });
+        });
   }
 
   private void createMenuBar() {
@@ -82,12 +93,12 @@ public class Main extends Frame {
     JMenu defaultReminders = new JMenu("Default");
     // Stay hydrated
     JMenuItem dSHReminder = new JMenuItem("Reminder: Drink Water");
-    dSHReminder.addActionListener( e -> { });
+    dSHReminder.addActionListener(e -> {});
     dSHReminder.setEnabled(false);
     defaultReminders.add(dSHReminder);
     // Stay Active
     JMenuItem dSAReminder = new JMenuItem("Reminder: Body position");
-    dSAReminder.addActionListener( e -> {});
+    dSAReminder.addActionListener(e -> {});
     dSAReminder.setEnabled(false);
     defaultReminders.add(dSAReminder);
     reminderMenu.add(defaultReminders);
@@ -105,34 +116,38 @@ public class Main extends Frame {
       JMenu orangeHrMenu = new JMenu("Orange HRMS");
       // edit
       JMenuItem editAccount = new JMenuItem("Edit Account");
-      editAccount.addActionListener(e ->  {
-        Account account = new Account();
-        account.defaultShow();
-      });
+      editAccount.addActionListener(
+          e -> {
+            Account account = new Account();
+            account.defaultShow();
+          });
       orangeHrMenu.add(editAccount);
 
       // punch in /out
       JMenuItem puchInOutItem = new JMenuItem("Punch In/Out");
-      puchInOutItem.addActionListener(e -> {
-        try {
-          PunchInOut punchInOut = new PunchInOut();
-          punchInOut.defaultShow(this);
-        } catch (URISyntaxException uriSyntaxException) {
-          Message.showMessage("Error", TrayIcon.MessageType.ERROR, this);
-        }
-      });
+      puchInOutItem.addActionListener(
+          e -> {
+            try {
+              PunchInOut punchInOut = new PunchInOut();
+              punchInOut.defaultShow(this);
+            } catch (URISyntaxException uriSyntaxException) {
+              Message.showMessage("Error", TrayIcon.MessageType.ERROR, this);
+            }
+          });
       orangeHrMenu.add(puchInOutItem);
       hrmsMenu.add(orangeHrMenu);
     } else {
       JMenuItem orangeHrMenuItem = new JMenuItem("Orange HRMS");
-      orangeHrMenuItem.addActionListener(e -> {
-        try {
-          Orange.hrmsAuto(this);
-        } catch (URISyntaxException uriSyntaxException) {
-          uriSyntaxException.printStackTrace();
-          Message.showMessage(uriSyntaxException.getMessage(), TrayIcon.MessageType.ERROR, this);
-        }
-      });
+      orangeHrMenuItem.addActionListener(
+          e -> {
+            try {
+              Orange.hrmsAuto(this);
+            } catch (URISyntaxException uriSyntaxException) {
+              uriSyntaxException.printStackTrace();
+              Message.showMessage(
+                  uriSyntaxException.getMessage(), TrayIcon.MessageType.ERROR, this);
+            }
+          });
       hrmsMenu.add(orangeHrMenuItem);
     }
 
@@ -153,7 +168,7 @@ public class Main extends Frame {
     pack();
   }
 
-  public void updateMenuBar(){
+  public void updateMenuBar() {
     main.createMenuBar();
   }
 
@@ -173,43 +188,47 @@ public class Main extends Frame {
     gl.setAutoCreateContainerGaps(true);
     gl.setAutoCreateGaps(true);
 
-    gl.setHorizontalGroup(gl.createParallelGroup()
-        .addGroup(gl.createSequentialGroup()
-            .addComponent(labels[0])
-            .addComponent(labels[1])
-            .addComponent(labels[2])
-            .addComponent(labels[3])
-        ).addGroup(gl.createSequentialGroup()
-            .addComponent(labels[4])
-            .addComponent(labels[5])
-            .addComponent(labels[6])
-            .addComponent(labels[7]))
-        .addGroup(gl.createSequentialGroup()
-            .addComponent(labels[8])
-            .addComponent(labels[9])
-            .addComponent(labels[10])
-            .addComponent(labels[11])
-        )
-    );
+    gl.setHorizontalGroup(
+        gl.createParallelGroup()
+            .addGroup(
+                gl.createSequentialGroup()
+                    .addComponent(labels[0])
+                    .addComponent(labels[1])
+                    .addComponent(labels[2])
+                    .addComponent(labels[3]))
+            .addGroup(
+                gl.createSequentialGroup()
+                    .addComponent(labels[4])
+                    .addComponent(labels[5])
+                    .addComponent(labels[6])
+                    .addComponent(labels[7]))
+            .addGroup(
+                gl.createSequentialGroup()
+                    .addComponent(labels[8])
+                    .addComponent(labels[9])
+                    .addComponent(labels[10])
+                    .addComponent(labels[11])));
 
-    gl.setVerticalGroup(gl.createSequentialGroup()
-        .addGroup(gl.createParallelGroup()
-            .addComponent(labels[0])
-            .addComponent(labels[1])
-            .addComponent(labels[2])
-            .addComponent(labels[3]))
-        .addGroup(gl.createParallelGroup()
-            .addComponent(labels[4])
-            .addComponent(labels[5])
-            .addComponent(labels[6])
-            .addComponent(labels[7]))
-        .addGroup(gl.createParallelGroup()
-            .addComponent(labels[8])
-            .addComponent(labels[9])
-            .addComponent(labels[10])
-            .addComponent(labels[11])
-        )
-    );
+    gl.setVerticalGroup(
+        gl.createSequentialGroup()
+            .addGroup(
+                gl.createParallelGroup()
+                    .addComponent(labels[0])
+                    .addComponent(labels[1])
+                    .addComponent(labels[2])
+                    .addComponent(labels[3]))
+            .addGroup(
+                gl.createParallelGroup()
+                    .addComponent(labels[4])
+                    .addComponent(labels[5])
+                    .addComponent(labels[6])
+                    .addComponent(labels[7]))
+            .addGroup(
+                gl.createParallelGroup()
+                    .addComponent(labels[8])
+                    .addComponent(labels[9])
+                    .addComponent(labels[10])
+                    .addComponent(labels[11])));
 
     pack();
   }

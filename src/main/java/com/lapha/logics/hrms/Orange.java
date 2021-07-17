@@ -29,7 +29,7 @@ public class Orange {
   final String login = "/symfony/web/index.php";
   final String punchIn = "/symfony/web/index.php/attendance/punchIn";
   final String punchOut = "/symfony/web/index.php/attendance/punchOut";
-  final static String punchInOutNote = "Punch In/Out by Lapha.";
+  static final String punchInOutNote = "Punch In/Out by Lapha.";
 
   public Orange(final String host) throws URISyntaxException {
     this.host = new URI(host);
@@ -55,7 +55,9 @@ public class Orange {
     return continuePunchInOut(cookies, false, null);
   }
 
-  public boolean continuePunchInOut(Map<String, String> cookies, boolean toPunchIn, Ref<Connection> nextConnectionRef) throws Exception {
+  public boolean continuePunchInOut(
+      Map<String, String> cookies, boolean toPunchIn, Ref<Connection> nextConnectionRef)
+      throws Exception {
     final String url;
     if (toPunchIn) {
       url = this.host.resolve(punchIn).toASCIIString();
@@ -98,19 +100,21 @@ public class Orange {
       }
       nextConnection.data("note", note);
 
-      //new submit
+      // new submit
       nextConnection.cookies(cookies);
       Document punchTimeResultDocument = nextConnection.post();
       // check if waring class is there
       StringBuilder message = new StringBuilder("");
-      Elements warning = punchTimeResultDocument.getElementsByAttributeValue("class", "message warning fadable");
+      Elements warning =
+          punchTimeResultDocument.getElementsByAttributeValue("class", "message warning fadable");
       if (warning != null) {
         for (Element element1 : warning) {
           message.append("WARN:").append(element1.text()).append("\n");
         }
       }
 
-      Elements error = punchTimeResultDocument.getElementsByAttributeValue("class", "message error");
+      Elements error =
+          punchTimeResultDocument.getElementsByAttributeValue("class", "message error");
       if (error != null) {
         for (Element element1 : error) {
           message.append("ERROR:").append(element1.text()).append("\n");
@@ -134,7 +138,6 @@ public class Orange {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
     return localTime.format(formatter);
   }
-
 
   public Map<String, String> getCookies() throws IOException {
     String loginUrl = this.host.resolve(this.login).toASCIIString();
